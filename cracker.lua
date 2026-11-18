@@ -1,6 +1,6 @@
 -- Night Slayer UI
 if (game:GetService("CoreGui")):FindFirstChild("Night Slayer Hub") and (game:GetService("CoreGui")):FindFirstChild("ScreenGui") then
-	(game:GetService("CoreGui")).Night Slayer Hub:Destroy();
+	(game:GetService("CoreGui"))["Night Slayer Hub"]:Destroy();
 	(game:GetService("CoreGui")).ScreenGui:Destroy();
 end;
 _G.Primary = Color3.fromRGB(100, 100, 100);
@@ -76,7 +76,9 @@ ImageButton.AutoButtonColor = false;
 MakeDraggable(ImageButton, OutlineButton);
 CreateRounded(ImageButton, 10);
 ImageButton.MouseButton1Click:connect(function()
-	(game.CoreGui:FindFirstChild("Night Slayer Hub")).Enabled = not (game.CoreGui:FindFirstChild("Night Slayer Hub")).Enabled;
+	if game.CoreGui:FindFirstChild("Night Slayer Hub") then
+		(game.CoreGui:FindFirstChild("Night Slayer Hub")).Enabled = not (game.CoreGui:FindFirstChild("Night Slayer Hub")).Enabled;
+	end;
 end);
 local NotificationFrame = Instance.new("ScreenGui");
 NotificationFrame.Name = "NotificationFrame";
@@ -155,7 +157,7 @@ function Update:Notify(desc)
 	OutlineFrame:TweenPosition(UDim2.new(0.5, 0, 0.1 + (#NotificationList) * 0.1, 0), "Out", "Quad", 0.4, true);
 	table.insert(NotificationList, {
 		OutlineFrame,
-		title
+		Title.Text
 	});
 end;
 function Update:StartLoad()
@@ -283,7 +285,7 @@ end;
 (getgenv()).SaveConfig = function()
 	if readfile and writefile and isfile and isfolder then
 		if not isfile(("Night Slayer Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json")) then
-			(getgenv()).Load();
+			(getgenv()).LoadConfig();
 		else
 			local Decode = (game:GetService("HttpService")):JSONDecode(readfile("Night Slayer Hub/Library/" .. game.Players.LocalPlayer.Name .. ".json"));
 			local Array = {};
@@ -321,13 +323,13 @@ function Update:Window(Config)
 	local currentpage = "";
 	local keybind = keybind or Enum.KeyCode.RightControl;
 	local yoo = string.gsub(tostring(keybind), "Enum.KeyCode.", "");
-	local Night Slayer Hub = Instance.new("ScreenGui");
-	Night Slayer Hub.Name = "Night Slayer Hub";
-	Night Slayer Hub.Parent = game.CoreGui;
-	Night Slayer Hub.DisplayOrder = 999;
+	local NightSlayerHub = Instance.new("ScreenGui");
+	NightSlayerHub.Name = "Night Slayer Hub";
+	NightSlayerHub.Parent = game.CoreGui;
+	NightSlayerHub.DisplayOrder = 999;
 	local OutlineMain = Instance.new("Frame");
 	OutlineMain.Name = "OutlineMain";
-	OutlineMain.Parent = Night Slayer Hub;
+	OutlineMain.Parent = NightSlayerHub;
 	OutlineMain.ClipsDescendants = true;
 	OutlineMain.AnchorPoint = Vector2.new(0.5, 0.5);
 	OutlineMain.BackgroundColor3 = Color3.fromRGB(30, 30, 30);
@@ -1554,7 +1556,7 @@ function Update:Window(Config)
 			Sep1.Size = UDim2.new(0, 20, 0, 36);
 			Sep1.Font = Enum.Font.GothamBold;
 			Sep1.RichText = true;
-			Sep1.Text = "âŒ©<font color=\"rgb(255, 0, 0)\">âŒ©</font>";
+			Sep1.Text = "〈<font color=\"rgb(255, 0, 0)\">〈</font>";
 			Sep1.TextColor3 = Color3.fromRGB(255, 255, 255);
 			Sep1.TextSize = 14;
 			Sep2.Name = "Sep2";
@@ -1577,7 +1579,7 @@ function Update:Window(Config)
 			Sep3.Size = UDim2.new(0, 20, 0, 36);
 			Sep3.Font = Enum.Font.GothamBold;
 			Sep3.RichText = true;
-			Sep3.Text = "<font color=\"rgb(255, 0, 0)\">âŒª</font>âŒª";
+			Sep3.Text = "<font color=\"rgb(255, 0, 0)\">〉</font>〉";
 			Sep3.TextColor3 = Color3.fromRGB(255, 255, 255);
 			Sep3.TextSize = 14;
 		end;
